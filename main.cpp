@@ -1,41 +1,40 @@
-#include "Winpux/Window.hpp"
-#include "Winpux/Handler.hpp"
+#include <iostream>
 
-using namespace Winpux;
+#define WPX_SET_PLATFORM_WIN32
+
+#include "Winpux/window.h"
+#include "Winpux/library.h"
+
+
+using namespace wpx;
+
 
 // This is the usage I'm aiming for
 
 int main()
 {
-    Winpux::wpxWindow b;
 
+    wpxInternal::activateFunctions_Win32();
 
-    wpxHandler winHandler;
+    if (!WinpuxLib::Init())
+        std::terminate();
 
-    if (!winHandler.Init())
-        return -1;
+    wpxWindow* window = WinpuxLib::InitWindow();
 
-    
-
-    // wpxWindow* w = winHandler.InstantiateWindow(640, 360, "Test Window");
-
-    // if (!w)
-    //     return -1;
-
-    // while (!w->ShouldClose())
+    // while (!window->ShouldClose())
     // {
-    //     w->PollEvents();
+    //     window->PollEvents();
+
+        
 
 
-
-    //     // ...
     // }
 
-    // winHandler.DestroyWindow(w);
+    // WinpuxLib::DestroyWindow(window);
 
 
-    // winHandler.Terminate();
-
+    // WinpuxLib::Terminate();
+   
 
     return 0;
 }
