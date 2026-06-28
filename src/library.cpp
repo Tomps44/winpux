@@ -1,26 +1,45 @@
 #include "Winpux/library.h"
-
-extern wpx::wpxInternal::wpxLib globalLib;
+#include <iostream>
 
 namespace wpx::WinpuxLib
 {
     bool Init()
     {
-        return ::wpx::wpxInternal::init();
+        using namespace wpxInternal;
+
+        globalLib = wpxLib{};
+        globalLib.platform = new wpxPlatform;
+
+        if (!selectPlatform(globalLib.platform))
+            return false;
+
+        if (!globalLib.platform->init())
+            return false;
+
+        return true;
     }
+
     void Terminate()
     {
-        return ::wpx::wpxInternal::terminate();
+        using namespace wpxInternal;
+
+        delete globalLib.platform;
     }
-
-
 
     wpxWindow* InitWindow()
     {
-        ::wpx::wpxInternal::wpxWindowImpl* impl = ::wpx::wpxInternal::initWindow();
+        wpxWindow* window = new wpxWindow;
 
-        return wpxWindow::FromWindowImpl(impl);
+        window->SetWindowImpl(wpx::wpxInternal::globalLib.platform->initWindow());
+
+        return window;
     }
+
+    void DestroyWindow(wpxWindow* window)
+    {
+        window->DeleteWindowImpl();
+    }
+    
 
 
 } // namespace wpx

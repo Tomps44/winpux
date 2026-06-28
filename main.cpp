@@ -1,4 +1,7 @@
 #include <iostream>
+#include <chrono>
+#include <thread>
+#include <vector>
 
 #define WPX_SET_PLATFORM_WIN32
 
@@ -13,31 +16,32 @@ using namespace wpx;
 
 int main()
 {
-
-    wpxInternal::activateFunctions_Win32();
-
     if (!WinpuxLib::Init())
+    {
         std::terminate();
+    }
 
     wpxWindow* window = WinpuxLib::InitWindow();
 
+    window->PollEvents();
+
     // while (!window->ShouldClose())
     // {
-    //     window->PollEvents();
 
-        
 
 
     // }
 
-    // WinpuxLib::DestroyWindow(window);
+    WinpuxLib::DestroyWindow(window);
 
+    WinpuxLib::Terminate();
 
-    // WinpuxLib::Terminate();
-   
 
     return 0;
 }
+
+
+
 
 
 

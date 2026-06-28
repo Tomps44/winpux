@@ -1,7 +1,5 @@
 #pragma once
 
-#if WPX_PLATFORM & WPX_PLATFORM_WIN32_BIT
-
 
 #if !defined(NOMINMAX)
 #   define NOMINMAX
@@ -15,12 +13,20 @@
 #   define VC_EXTRALEAN
 #endif
 
+#if !defined(UNICODE)
+#   define UNICODE
+#endif
+#if !defined(_UNICODE)
+#   define _UNICODE
+#endif
+
+
 #include "../setup.h"
 
 #include <windows.h>
 
 
-// Fwd declaration for the functions .cpp files that need it
+// Fwd declaration for the .cpp files that need it
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -31,19 +37,19 @@ namespace wpx::wpxInternal
     class wpxWindow_Win32
     {
     public:
-        HWND handle;
-        HICON icon;
+        HWND handle{};
+        HICON icon{};
 
-        ATOM atom;
+        ATOM atom{};
 
-        uint32_t width, height;
-        uint32_t xPos, yPos;
+        uint32_t width{}, height{};
+        uint32_t xPos{}, yPos{};
 
-        const char* title;
+        const char* title{};
 
-        DWORD /* unsigned long */ style;
+        DWORD /* unsigned long */ style{};
 
-        bool shouldClose;
+        bool shouldClose{};
 
 
 
@@ -57,10 +63,10 @@ namespace wpx::wpxInternal
     class wpxLibrary_Win32
     {
     public:
-        HINSTANCE hInstance;
+        HINSTANCE hInstance{};
 
-        const wchar_t* WND_CLASS_NAME = L"Window Class Name";
-        WNDCLASSEXW wc;
+        const wchar_t* WND_CLASS_NAME{};
+        WNDCLASSEX wc{};
 
         // ...
     };
@@ -69,7 +75,7 @@ namespace wpx::wpxInternal
     class wpxMonitor_Win32
     {
     public:
-        HMONITOR handle;
+        HMONITOR handle{};
 
         // ...
     };
@@ -78,17 +84,17 @@ namespace wpx::wpxInternal
     class wpxCursor_Win32
     {
     public:
-        HCURSOR handle;
+        HCURSOR handle{};
 
         // ...
     };
 }
 
 
-#define WPX_WIN32_WINDOW_IMPL wpx::wpxInternal::wpxWindow_Win32 win32
-#define WPX_WIN32_LIB_IMPL wpx::wpxInternal::wpxLibrary_Win32 win32
-#define WPX_WIN32_MONITOR_IMPL wpx::wpxInternal::wpxMonitor_Win32 win32
-#define WPX_WIN32_CURSOR_IMPL wpx::wpxInternal::wpxCursor_Win32 win32
+#define WPX_WIN32_WINDOW_IMPL wpx::wpxInternal::wpxWindow_Win32 win32{}
+#define WPX_WIN32_LIB_IMPL wpx::wpxInternal::wpxLibrary_Win32 win32{}
+#define WPX_WIN32_MONITOR_IMPL wpx::wpxInternal::wpxMonitor_Win32 win32{}
+#define WPX_WIN32_CURSOR_IMPL wpx::wpxInternal::wpxCursor_Win32 win32{}
 
 
 /**
@@ -112,7 +118,7 @@ namespace wpx::wpxInternal
 
 namespace wpx::wpxInternal
 {
-    void activateFunctions_Win32();
+    bool activatePlatform_Win32(wpxPlatform* platform);
 
     // For the Library namespace
     // They will be given to a function pointer
@@ -150,8 +156,6 @@ namespace wpx::wpxInternal
     uint32_t getHeight_Win32(wpxWindowImpl* window);
     void getSize_Win32(wpxWindowImpl* window, uint32_t* widthPtr, uint32_t* heightPtr);
 
-    void pollEvents_Win32(wpxWindowImpl* window);
+    void pollEvents_Win32(wpxWindowImpl* windowImpl);
 }
 
-
-#endif // WPX_PLATFORM & WPX_PLATFORM_WIN32_BIT

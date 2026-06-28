@@ -5,7 +5,7 @@
 
 
 #if WPX_PLATFORM & WPX_PLATFORM_WIN32_BIT
-#   include "platform/win32_platform.h"
+#   include "platform/win32-platform.h"
 #else
 #   define WPX_WIN32_WINDOW_IMPL 
 #   define WPX_WIN32_LIB_IMPL 
@@ -16,7 +16,7 @@
 
 
 #if WPX_PLATFORM & WPX_PLATFORM_X11_BIT
-#   include "platform/x11_platform.h"
+#   include "platform/x11-platform.h"
 #else
 #   define WPX_X11_WINDOW_IMPL 
 #   define WPX_X11_LIB_IMPL 
@@ -27,7 +27,7 @@
 
 
 #if WPX_PLATFORM & WPX_PLATFORM_WAYLAND_BIT
-#   include "platform/wayland_platform.h"
+#   include "platform/wayland-platform.h"
 #else
 #   define WPX_WAYLAND_WINDOW_IMPL 
 #   define WPX_WAYLAND_LIB_IMPL 
@@ -38,7 +38,7 @@
 
 
 #if WPX_PLATFORM & WPX_PLATFORM_COCOA_BIT
-#   include "platform/cocoa_platform.h"
+#   include "platform/cocoa-platform.h"
 #else
 #   define WPX_COCOA_WINDOW_IMPL 
 #   define WPX_COCOA_LIB_IMPL 

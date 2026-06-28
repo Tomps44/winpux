@@ -1,7 +1,6 @@
 #pragma once
 
-#include "internal/platform.h"
-#include "internal/global_lib_internal.h"
+#include "internal/global-lib.h"
 #include "window.h"
 
 namespace wpx::WinpuxLib
@@ -11,7 +10,7 @@ namespace wpx::WinpuxLib
 
 
     wpxWindow* InitWindow();
-    inline void DestroyWindow(wpxWindow* window);
+    void DestroyWindow(wpxWindow* window);
 
     
 

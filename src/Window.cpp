@@ -1,22 +1,22 @@
 #include "Winpux/window.h"
 
-extern wpx::wpxInternal::wpxLib globalLib;
+#include <iostream>
 
 namespace wpx
 {
-    wpxWindow* wpxWindow::FromWindowImpl(wpxInternal::wpxWindowImpl* windowImpl)
+    void wpxWindow::SetWindowImpl(wpxInternal::wpxWindowImpl* windowImpl)
     {
-        wpxWindow window;
-
-        window.impl = windowImpl;
-
-        return &window;
+        impl = windowImpl;
+    }
+    void wpxWindow::DeleteWindowImpl()
+    {
+        DestroyWindow(impl->win32.handle);
+        delete impl;
     }
 
-    const char* wpxWindow::GetTitle() const
+    void wpxWindow::PollEvents()
     {
-        return "Not implemented !!";
+        wpxInternal::globalLib.platform->pollEvents(impl);
     }
-
     
 } // namespace wpx

@@ -8,31 +8,37 @@ set(LIBRARY_NAME Winpux)
 # add_subdirectory(external/gammalgebra)
 # target_link_libraries(glui_tests PRIVATE gammalgebra)
 
+set(WIN32_CPP   
+    src/platform/win32-init.cpp
+    src/platform/win32-window.cpp
+)
+set(WIN32_H
+    include/Winpux/internal/platform/win32-platform.h
+)
+
+
 set(CROSS_PLATFORM_CPP_FILES
     src/library.cpp
     src/window.cpp
+    src/init.cpp
 )
-
-set(WIN32_CPP   
-    src/platform/win32_init.cpp
-    src/platform/win32_window_impl.cpp
-)
-set(WIN32_H
-    include/Winpux/internal/platform/win32_platform.h
-)
-
 set(CROSS_PLATFORM_H_FILES 
     include/Winpux/internal/setup.h
     include/Winpux/internal/platform.h
-    include/Winpux/internal/window_impl.h
-    include/Winpux/internal/global_lib_internal.h
-
-    include/Winpux/window_specs.h
+    include/Winpux/internal/global-lib.h
+    include/Winpux/internal/window-impl.h
+    
+    include/Winpux/window-specs.h
     include/Winpux/library.h
     include/Winpux/window.h
 )
 
-add_library(${LIBRARY_NAME} STATIC ${CROSS_PLATFORM_CPP_FILES} ${CROSS_PLATFORM_H_FILES} ${WIN32_H} ${WIN32_CPP})
+add_library(
+    ${LIBRARY_NAME}
+    STATIC
+    ${CROSS_PLATFORM_CPP_FILES} 
+    ${WIN32_CPP}
+)
 target_include_directories(
     ${LIBRARY_NAME}
     PUBLIC
