@@ -22,6 +22,7 @@ namespace wpx::wpxInternal
         void (*destroyWindow)(wpxWindowImpl* windowImpl);
 
         void (*pollEvents)(wpxWindowImpl* windowImpl);
+        bool (*shouldClose)(wpxWindowImpl* windowImpl);
 
 
     };
@@ -47,7 +48,7 @@ namespace wpx::wpxInternal
 
 
     // This is the global object storing all the data required to run the library.
-    static wpxLib globalLib;
+    extern wpxLib globalLib;
 
     
 } // namespace wpx::wpxInternal

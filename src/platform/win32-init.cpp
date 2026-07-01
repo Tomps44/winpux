@@ -13,7 +13,8 @@ namespace wpx::wpxInternal
             // .terminate = terminate_Win32,
             .initWindow = initWindow_Win32,
             // .destroyWindow = destroyWindow_Win32
-            .pollEvents = pollEvents_Win32
+            .pollEvents = pollEvents_Win32,
+            .shouldClose = shoudlClose_Win32
         };
 
         *platform = activatedWin32;
@@ -37,7 +38,6 @@ namespace wpx::wpxInternal
         globalLib.initialized = false;
         globalLib.win32.hInstance = hModule;
         globalLib.win32.wc = wcEx;
-        globalLib.win32.WND_CLASS_NAME = L"Winpux-Window";
 
 
         if (!RegisterClassEx(&(globalLib.win32.wc)))

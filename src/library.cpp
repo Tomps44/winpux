@@ -1,13 +1,20 @@
 #include "Winpux/library.h"
 #include <iostream>
 
+
+namespace wpx::wpxInternal
+{
+    wpxLib globalLib = wpxLib{};
+}
+
+
 namespace wpx::WinpuxLib
 {
+
     bool Init()
     {
         using namespace wpxInternal;
 
-        globalLib = wpxLib{};
         globalLib.platform = new wpxPlatform;
 
         if (!selectPlatform(globalLib.platform))
@@ -23,6 +30,7 @@ namespace wpx::WinpuxLib
     {
         using namespace wpxInternal;
 
+        delete globalLib.win32.WND_CLASS_NAME;
         delete globalLib.platform;
     }
 
@@ -38,6 +46,7 @@ namespace wpx::WinpuxLib
     void DestroyWindow(wpxWindow* window)
     {
         window->DeleteWindowImpl();
+        delete window;
     }
     
 

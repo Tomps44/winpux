@@ -7,11 +7,12 @@ namespace wpx::wpxInternal
     {
         wpxWindowImpl* windowImpl = new wpxWindowImpl;
 
+        windowImpl->win32.shouldClose = false;
+
         HWND hwnd = CreateWindowExW(
-            WS_EX_OVERLAPPEDWINDOW,
-            // globalLib.win32.WND_CLASS_NAME,
-            L"Winpux-Window",
-            L"Stupid API",
+            0,
+            globalLib.win32.WND_CLASS_NAME,
+            L"Test Window",
             WS_OVERLAPPEDWINDOW,
 
             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
@@ -25,29 +26,12 @@ namespace wpx::wpxInternal
         if (hwnd == NULL)
             return nullptr;
 
-        // if (!windowImpl)
-        //     std::cout << "J'en ai marre\n"; 
-
-        // std::cout << "wpxWindowImpl* adr: [" << &windowImpl << "]\n";
+        SetProp(hwnd, globalLib.win32.PROP_STRING_NAME, windowImpl);
 
         windowImpl->win32.handle = hwnd;
 
         ShowWindow(windowImpl->win32.handle, SW_SHOW);
 
-        
-
-        MSG msg{};
-        while (GetMessage(&msg, windowImpl->win32.handle, 0, 0) > 0)
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-
-        // while (PeekMessage(&msg, windowImpl->win32.handle, 0, 0, PM_NOREMOVE))
-        // {
-        //     TranslateMessage(&msg);
-        //     DispatchMessage(&msg);
-        // }
 
         return windowImpl;
     }
@@ -57,17 +41,26 @@ namespace wpx::wpxInternal
     {
         MSG msg{};
 
-        while (!PeekMessage(&msg, windowImpl->win32.handle, 0, 0, PM_NOREMOVE))
+        while (!PeekMessage(&msg, windowImpl->win32.handle, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
     }
 
+    bool shoudlClose_Win32(wpxWindowImpl* windowImpl)
+    {
+        return windowImpl->win32.shouldClose;
+    }
+
 } // wpx::wpxInternal
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    using namespace wpx::wpxInternal;
+
+    wpxWindowImpl* impl = (wpxWindowImpl*)GetProp(hwnd, globalLib.win32.PROP_STRING_NAME);
+
     switch (uMsg)
     {
     case WM_DESTROY:
@@ -83,6 +76,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             EndPaint(hwnd, &ps);
         }
+        return 0;
+
+    case WM_CLOSE:
+        impl->win32.shouldClose = true;
         return 0;
 
     }

@@ -1,7 +1,4 @@
 #include <iostream>
-#include <chrono>
-#include <thread>
-#include <vector>
 
 #define WPX_SET_PLATFORM_WIN32
 
@@ -23,16 +20,17 @@ int main()
 
     wpxWindow* window = WinpuxLib::InitWindow();
 
-    window->PollEvents();
 
-    // while (!window->ShouldClose())
-    // {
+    while (!window->ShouldClose()) 
+    {
+        window->PollEvents();
+    }
 
 
-
-    // }
+    std::cout << "The window closed !!\n";
 
     WinpuxLib::DestroyWindow(window);
+
 
     WinpuxLib::Terminate();
 

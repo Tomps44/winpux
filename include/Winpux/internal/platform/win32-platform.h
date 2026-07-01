@@ -65,7 +65,8 @@ namespace wpx::wpxInternal
     public:
         HINSTANCE hInstance{};
 
-        const wchar_t* WND_CLASS_NAME{};
+        const wchar_t* WND_CLASS_NAME = L"Winpux-Window";
+        const wchar_t* PROP_STRING_NAME = L"Winpux";
         WNDCLASSEX wc{};
 
         // ...
